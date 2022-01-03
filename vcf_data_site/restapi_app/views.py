@@ -5,7 +5,8 @@ import json
 import pandas as pd
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser, DjangoModelPermissions, BasePermission, SAFE_METHODS
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import BasicAuthentication
 from .models import VcfRow
 from .serializers import FileUploadSerializer, VcfRowSerializer
 from django.contrib import messages
@@ -71,8 +72,14 @@ class UploadFileView(generics.CreateAPIView):
 
 
 class VcfRowViewSet(viewsets.ModelViewSet):
-    # permission_classes = [DjangoModelPermissions]
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (BasicAuthentication,)
     serializer_class = VcfRowSerializer
+
+    def get_permissions(self):
+        if self.request.method != 'PUT' and self.request.method != 'POST' and self.request.method != 'DELETE':
+            return []
+        return super().get_permissions()
 
     def get_object(self, queryset=None, **kwargs):
         item = self.kwargs.get('pk')
