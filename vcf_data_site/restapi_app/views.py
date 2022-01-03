@@ -1,22 +1,15 @@
-import csv
-from django.shortcuts import redirect
-from rest_framework import generics, status, viewsets, views
+from rest_framework import generics, status, viewsets
 import io
-import os
 import gzip
 import json
 import pandas as pd
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
-from rest_framework.reverse import reverse
-from django.http import JsonResponse
+from rest_framework.permissions import IsAdminUser, DjangoModelPermissions, BasePermission, SAFE_METHODS
 from .models import VcfRow
 from .serializers import FileUploadSerializer, VcfRowSerializer
 from django.contrib import messages
-from rest_framework.exceptions import ValidationError
 from django.utils import timezone
-from django.conf import settings
 
 
 # Function that reads a VCF file
@@ -78,6 +71,7 @@ class UploadFileView(generics.CreateAPIView):
 
 
 class VcfRowViewSet(viewsets.ModelViewSet):
+    # permission_classes = [DjangoModelPermissions]
     serializer_class = VcfRowSerializer
 
     def get_object(self, queryset=None, **kwargs):
@@ -87,6 +81,13 @@ class VcfRowViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return VcfRow.objects.all().order_by('CHROM')
 
+
+# class VcfUserWritePermission(BasePermission):
+#     # Permission to add (post), change (put) and delete (delete) VCF data
+#     def has_object_permission(self, request, view, obj):
+#         if request.method in SAFE_METHODS:
+#             return True
+#         return obj
 
 
     # def create(self, request, *args, **kwargs):
