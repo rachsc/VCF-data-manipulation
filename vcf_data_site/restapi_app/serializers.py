@@ -1,12 +1,20 @@
+from abc import ABC
+
 from rest_framework import serializers
-from .models import File
+from .models import VcfRow
 
 
 class FileUploadSerializer(serializers.Serializer):
     file = serializers.FileField()
 
-
-class SaveFileSerializer(serializers.Serializer):
     class Meta:
-        model = File
-        fields = "__all__"
+        model = VcfRow
+        fields = ('CHROM', 'POS', 'ID', 'REF', 'ALT')
+
+
+
+class VcfRowSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = VcfRow
+        fields = ('CHROM', 'POS', 'ID', 'REF', 'ALT')
+

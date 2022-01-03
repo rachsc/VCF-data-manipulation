@@ -1,34 +1,24 @@
 from django.db import models
 
 
-class File(models.Model):
-    chrom = models.CharField(max_length=100)
-    pos = models.PositiveIntegerField()
-    id = models.CharField(max_length=100, primary_key=True)
-    ref = models.CharField(max_length=100)
-    alt = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.id
-
-
 # Function that defines the schema of our model in the database
 
-class VcfDataManager(models.Manager):
-    def add_new_data(self, chrom, pos, id, ref, alt):
-        new_data = self.create(CHROM=chrom, POS=pos, ID=id, REF=ref, ALT=alt)
-        ## AQUI METO LA new_data AL FICHERO VCF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class VcfRowManager(models.Manager):
+    def add_new_data(self, CHROM, POS, ID, REF, ALT):
+        new_data = self.create(CHROM=CHROM, POS=POS, ID=ID, REF=REF, ALT=ALT)
+        ## AQUI METO LA new_data AL FICHERO VCF !!!!!!!!!!!!!!!
         return new_data
 
 
-class VcfData(models.Model):
-    chrom = models.CharField(max_length=100)
-    pos = models.PositiveIntegerField()
-    id = models.CharField(max_length=100, primary_key=True)
-    ref = models.CharField(max_length=100)
-    alt = models.CharField(max_length=100)
+class VcfRow(models.Model):
+    CHROM = models.CharField(max_length=100)
+    POS = models.PositiveIntegerField()
+    ID = models.CharField(max_length=100)
+    REF = models.CharField(max_length=100)
+    ALT = models.CharField(max_length=100)
+    my_pk = models.AutoField(primary_key=True)
 
-    objects = VcfDataManager()
+    objects = VcfRowManager()
 
     def __str__(self):
-        return self.id
+        return self.ID
