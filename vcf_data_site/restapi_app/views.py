@@ -4,9 +4,10 @@ import gzip
 import json
 import pandas as pd
 from rest_framework.generics import get_object_or_404
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from .models import VcfRow
 from .serializers import FileUploadSerializer, VcfRowSerializer
 from django.contrib import messages
@@ -30,6 +31,7 @@ def read_vcf(vcf_path):
 
 
 class UploadFileView(generics.CreateAPIView):
+    parser_classes = [MultiPartParser]
     serializer_class = FileUploadSerializer
 
     def post(self, request, *args, **kwargs):
@@ -73,7 +75,7 @@ class UploadFileView(generics.CreateAPIView):
 
 class VcfRowViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
-    authentication_classes = (BasicAuthentication,)
+    authentication_classes = (BasicAuthentication, SessionAuthentication,)
     serializer_class = VcfRowSerializer
 
     def get_permissions(self):

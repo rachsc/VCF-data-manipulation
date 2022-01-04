@@ -36,3 +36,23 @@ api/<str:ID> | GET | READ | Get a single row of VCF data
 api | POST | CREATE | Create a new row of VCF data
 api/<str:ID> | PUT | UPDATE | Update a row of VCF data
 api/<str:ID> | DELETE | DELETE | Delete a row of VCF data
+
+## Use
+You can test the API using cURL, httpie, Postman or a web browser (among other things). In this documentation I am going to show you how to test it with Postman and with the web browser for and easier understanding as these are the most visual options and the ones I used.
+
+You can install Postman from [here](https://www.postman.com/downloads/).
+
+First, you have to start up Django´s development server.
+```
+python manage.py runserver
+```
+
+Now, open your web browser and we are going to upload a vcf.gz file to populate django´s database. In your browser type:
+```
+http://127.0.0.1:8000/upload/
+```
+You see now something like this:
+![Upload site](https://myoctocat.com/assets/images/base-octocat.svg)
+
+
+
