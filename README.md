@@ -82,8 +82,19 @@ Get all VCF data: http://127.0.0.1/api/
 	None | Results as json
 	\*/\* | Results as json
 	Other | Code 406 (Not acceptable)
+- The endpoint accepts a request parameter as part of the url (ID). So, if you want to receive the rows that match that specific ID, you go to: http://127.0.0.1/api/rs123, for example.
+If there is a match, it returns the row/s that match. If there is no match, it returns 404 Not found.
 
 ### POST
+Create new VCF row: http://127.0.0.1/api/
+
+- The endpoint has to accept a HTTP AUTHORIZATION header to allow the request, so you need to pass Basic Authorization (username and password). You can do that in the browser by clicking in "Log In" at the top right corner.
+- It only accepts json data as input e.g.
+	```
+	{"CHROM": "chr1", "POS": 1000, "ALT": "A", "REF": "G", "ID": "rs123"}
+	```
+
+
 
 ### PUT
 
