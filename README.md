@@ -8,7 +8,6 @@
 - Django-rest-auth
 - Django-extensions
 - Pandas 1.3.5
-- PyVCF 0.4.3
 - Coverage (Optional for testing)
 
 ## Installation
@@ -33,6 +32,7 @@ Endpoint | HTTP Method | CRUD Method | Result
 ---|---|---|---
 upload | POST | CREATE | Upload a vcf.gz file to django database
 register | POST | CREATE | Create new user
+download | GET | READ | Download csv file of the database
 api | GET | READ | Get all VCF data
 api/<str:ID> | GET | READ | Get a single row of VCF data
 api | POST | CREATE | Create a new row of VCF data
@@ -123,6 +123,10 @@ Example:
 ### DELETE
 It works exactly the same as the PUT request, the only difference is that you press the DELETE button because you want to make a delete request.
 
+### Download database
+You can download the database with all the changes into a csv file (with the five columns CHROM, POS, ID, REF, ALT).
+
+You only need to go to (GET request): http://127.0.0.1/download/ and a csv would be downloaded to your local machine.
 
 ## TESTS
 You can find tests for models and views here.

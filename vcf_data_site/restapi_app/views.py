@@ -1,10 +1,12 @@
+import csv
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from rest_framework import generics, status, viewsets
 import io
 import gzip
 import json
-import vcf
 import pandas as pd
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
@@ -32,17 +34,40 @@ def read_vcf(vcf_path):
     return vcf_reader
 
 
-def write_vcf(self, vcf_path):
-    written_variants = 0
-    # Check if the output file ends with .gz, then compress data.
-    open_func = gzip.open if vcf_path.endswith(".vcf.gz") else open
-    with open_func(vcf_path, "w") as out_vcf:
-        writer = vcf.Writer(out_vcf, self.out_template)
-        for record in self._variants:
-            if record.FILTER != "PASS" and record.FILTER is not None:
-                writer.write_record(record)
-                written_variants += 1
-    return written_variants
+def download_csv(request, queryset):
+    model = queryset.model
+    model_fields = model._meta.fields + model._meta.many_to_many
+    field_names = [field.name for field in model_fields]
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="export.csv"'
+
+    # the csv writer
+    writer = csv.writer(response, delimiter=";")
+    # Write a first row with header information
+    writer.writerow(field_names)
+    # Write data rows
+    for row in queryset:
+        values = []
+        for field in field_names:
+            value = getattr(row, field)
+            if callable(value):
+                try:
+                    value = value() or ''
+                except:
+                    value = 'Error retrieving value'
+            if value is None:
+                value = ''
+            values.append(value)
+        writer.writerow(values)
+    return response
+
+
+def export_csv(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    data = download_csv(request, VcfRow.objects.all())
+    response = HttpResponse(data, content_type='text/csv')
+    return response
 
 
 class UploadFileView(generics.CreateAPIView):

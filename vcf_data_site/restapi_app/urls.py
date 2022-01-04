@@ -10,5 +10,6 @@ router.register(r'api/<str:pk>', views.VcfRowViewSet, basename="single-vcf-row")
 urlpatterns = [
     path('upload/', views.UploadFileView.as_view(), name='upload-file'),
     path('register/', views.UserCreate.as_view(), name='register-user'),
+    path('download/', views.export_csv, name='download-file'),
     path('', include(router.urls)),
 ]
