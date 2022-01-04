@@ -3,6 +3,7 @@ from rest_framework import generics, status, viewsets
 import io
 import gzip
 import json
+import vcf
 import pandas as pd
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser
@@ -29,6 +30,19 @@ def read_vcf(vcf_path):
     ).rename(columns={'#CHROM': 'CHROM'})
 
     return vcf_reader
+
+
+def write_vcf(self, vcf_path):
+    written_variants = 0
+    # Check if the output file ends with .gz, then compress data.
+    open_func = gzip.open if vcf_path.endswith(".vcf.gz") else open
+    with open_func(vcf_path, "w") as out_vcf:
+        writer = vcf.Writer(out_vcf, self.out_template)
+        for record in self._variants:
+            if record.FILTER != "PASS" and record.FILTER is not None:
+                writer.write_record(record)
+                written_variants += 1
+    return written_variants
 
 
 class UploadFileView(generics.CreateAPIView):

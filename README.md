@@ -8,6 +8,7 @@
 - Django-rest-auth
 - Django-extensions
 - Pandas 1.3.5
+- PyVCF 0.4.3
 - Coverage (Optional for testing)
 
 ## Installation
@@ -31,6 +32,7 @@ In this REST API, you can find some endpoints that define its structure and how 
 Endpoint | HTTP Method | CRUD Method | Result
 ---|---|---|---
 upload | POST | CREATE | Upload a vcf.gz file to django database
+register | POST | CREATE | Create new user
 api | GET | READ | Get all VCF data
 api/<str:ID> | GET | READ | Get a single row of VCF data
 api | POST | CREATE | Create a new row of VCF data
