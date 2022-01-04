@@ -48,7 +48,7 @@ python manage.py runserver
 ```
 
 ### Upload VCF file
-Now, open your web browser and we are going to upload a vcf.gz file to populate django´s database. In your browser type:
+Now, open your web browser and we are going to upload a vcf.gz file to populate django´s database with the first 5 “CHROM,POS,ID,REF,ALT“ fields available on the VCF. In your browser type:
 ```
 http://127.0.0.1:8000/upload/
 ```
@@ -67,9 +67,21 @@ So, to create a user you only need to do a POST request to http://127.0.0.1:8000
 
 ![Create user](/images/create-user.png)
 
+If the user is created succesfully, it will return your username and a 201 CREATED.
+
 
 ### GET
+Get all VCF data: http://127.0.0.1/api/
 
+- All VCF data will be displayed and paginated so you can nagivate to previous and next results.
+- ACCEPT HTTP header options
+	Accept header | Returns
+	--- | ---
+	application/json | Results as json
+	application/xml | Results as xml
+	None | Results as json
+	*/* | Results as json
+	Other | Code 406 (Not acceptable)
 
 ### POST
 
