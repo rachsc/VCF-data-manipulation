@@ -52,7 +52,7 @@ Now, open your web browser and we are going to upload a vcf.gz file to populate 
 http://127.0.0.1:8000/upload/
 ```
 You see now something like this:
-![Upload site](https://myoctocat.com/assets/images/base-octocat.svg)
 
+![Upload site](/images/upload-site.png)
 
 
