@@ -122,6 +122,19 @@ Example:
 It works exactly the same as the PUT request, the only difference is that you press the DELETE button because you want to make a delete request.
 
 
-##TESTS
+## TESTS
+You can find tests for models and views here.
+
+
+To run tests:
+```
+python manage.py test
+```
+
+To run tests with coverage:
+```
+coverage run --omit='*/venv/*' manage.py test
+```
+
 
 
