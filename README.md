@@ -8,6 +8,7 @@
 - Django-rest-auth
 - Django-extensions
 - Pandas 1.3.5
+- CSV
 - Coverage (Optional for testing)
 
 ## Installation
