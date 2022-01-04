@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import generics, status, viewsets
 import io
 import gzip
@@ -6,10 +7,10 @@ import pandas as pd
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from .models import VcfRow
-from .serializers import FileUploadSerializer, VcfRowSerializer
+from .serializers import FileUploadSerializer, VcfRowSerializer, UserSerializer
 from django.contrib import messages
 from django.utils import timezone
 
@@ -91,17 +92,7 @@ class VcfRowViewSet(viewsets.ModelViewSet):
         return VcfRow.objects.all().order_by('CHROM')
 
 
-# class VcfUserWritePermission(BasePermission):
-#     # Permission to add (post), change (put) and delete (delete) VCF data
-#     def has_object_permission(self, request, view, obj):
-#         if request.method in SAFE_METHODS:
-#             return True
-#         return obj
-
-
-    # def create(self, request, *args, **kwargs):
-    #     try:
-    #         return super().create(request, *args, **kwargs)
-    #     except ValidationError as x:
-    #         return Response(x.args, status=status.HTTP_409_CONFLICT)
-
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny,)

@@ -47,6 +47,7 @@ First, you have to start up Django´s development server.
 python manage.py runserver
 ```
 
+### Upload VCF file
 Now, open your web browser and we are going to upload a vcf.gz file to populate django´s database. In your browser type:
 ```
 http://127.0.0.1:8000/upload/
@@ -54,5 +55,26 @@ http://127.0.0.1:8000/upload/
 You see now something like this:
 
 ![Upload site](/images/upload-site.png)
+
+As you can see, you can select a file from your local machine and upload it clicking in the POST button.
+
+If the file has the right format, a 201 CREATED is returned. If the file is in the wrong format, you will see the error message.
+
+### Create User
+We do not need to be authenticated to use the GET method and see all data or a single data (http://127.0.0.1:8000/api) but, we DO need to be authenticated to perform POST, PUT and DELETE.
+
+So, to create a user you only need to do a POST request to http://127.0.0.1:8000/register/ with the username and password that you want to create.
+
+![Create user](/images/create-user.png)
+
+
+### GET
+
+
+### POST
+
+### PUT
+
+### DELETE
 
 
