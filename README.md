@@ -89,15 +89,39 @@ If there is a match, it returns the row/s that match. If there is no match, it r
 Create new VCF row: http://127.0.0.1/api/
 
 - The endpoint has to accept a HTTP AUTHORIZATION header to allow the request, so you need to pass Basic Authorization (username and password). You can do that in the browser by clicking in "Log In" at the top right corner.
+
+![Log in](/images/log-in.png)
+
 - It only accepts json data as input e.g.
 	```
 	{"CHROM": "chr1", "POS": 1000, "ALT": "A", "REF": "G", "ID": "rs123"}
 	```
-
+- If you are not logged in, you won´t have authorization and the POST request will return a 403 (Permission denied).
+- If you are logged in, you have authorization and the POST request will return a 201 (Created).
 
 
 ### PUT
+Update an existing VCF row: http://127.0.0.1/api/<str:ID>
+
+- The endpoint has to accept a HTTP AUTHORIZATION header to allow the request, so you need to pass Basic Authorization (username and password). You can do that in the browser by clicking in "Log In" at the top right corner as shown in the POST request.
+
+- You pass in the url the ID of the row that you want to modify.
+
+- It only accepts json data as input. This contains the modification that you want to perform on the searched row. Then you click the button PUT.
+
+- If the ID you are looking for does not exist, it returns a 404 (Not found).
+
+- If you perform a succesfull update, it returns a 200 (Ok).
+
+Example:
+
+![PUT method](/images/put-delete.png)
+
 
 ### DELETE
+It works exactly the same as the PUT request, the only difference is that you press the DELETE button because you want to make a delete request.
+
+
+##TESTS
 
 

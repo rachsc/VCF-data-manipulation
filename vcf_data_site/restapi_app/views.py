@@ -78,6 +78,7 @@ class VcfRowViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (BasicAuthentication, SessionAuthentication,)
     serializer_class = VcfRowSerializer
+    http_method_names = ['get', 'post', 'head', 'put', 'delete', 'options']
 
     def get_permissions(self):
         if self.request.method != 'PUT' and self.request.method != 'POST' and self.request.method != 'DELETE':
