@@ -80,7 +80,7 @@ Get all VCF data: http://127.0.0.1/api/
 	application/json | Results as json
 	application/xml | Results as xml
 	None | Results as json
-	*/* | Results as json
+	\*/\* | Results as json
 	Other | Code 406 (Not acceptable)
 
 ### POST
